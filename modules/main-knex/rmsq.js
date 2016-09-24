@@ -21,9 +21,7 @@ export function Rmsq(config) {
   const client = redis.createClient(options.redis)
   const online = OnlineService(client)
   const rsmq = new RedisSMQ({
-    host: config.redis.host,
-    port: config.redis.port,
-    ns: 'smq'
+    client: client
   })
   return async (wss) => {
     const location = url.parse(wss.upgradeReq.url, true)

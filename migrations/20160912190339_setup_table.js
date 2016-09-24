@@ -30,7 +30,6 @@ exports.up = (knex, Promise) => {
       table.string('push_token', 255)
       table.string('device_id', 255)
       table.string('device_type', 255)
-      table.unique('phone', 'device_id')
     }),
 
     knex.schema.createTableIfNotExists('users', (table) => {

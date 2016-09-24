@@ -1,9 +1,10 @@
 {
-  "name": "konigjs",
+  "name": "konigjs-mentors",
   "version": "1.0.0",
   "description": "",
-  "main": "es6.js",
+  "main": "sites/site/es6.js",
   "scripts": {
+    "start": "node sites/site/es6.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "jarick",

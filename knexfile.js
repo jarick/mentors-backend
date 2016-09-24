@@ -17,10 +17,10 @@ module.exports = {
   staging: {
     client: 'mysql',
     connection: {
-      host: 'webrtc.cqgizo6zj65i.us-west-2.rds.amazonaws.com',
-      database: 'koa',
-      user:     'root',
-      password: 'pyh00kermysql'
+      host : 'eu-cdbr-west-01.cleardb.com',
+      user : 'bd04e6f98278bb:be08a89d',
+      password : 'be08a89d',
+      database : 'heroku_0df0b3d2207582f'
     },
     migrations: {
       tableName: 'migrations'
@@ -30,10 +30,10 @@ module.exports = {
   production: {
     client: 'mysql',
     connection: {
-      host: 'webrtc.cqgizo6zj65i.us-west-2.rds.amazonaws.com',
-      database: 'koa',
-      user:     'root',
-      password: 'pyh00kermysql'
+      host : 'eu-cdbr-west-01.cleardb.com',
+      user : 'bd04e6f98278bb:be08a89d',
+      password : 'be08a89d',
+      database : 'heroku_0df0b3d2207582f'
     },
     migrations: {
       tableName: 'migrations'
