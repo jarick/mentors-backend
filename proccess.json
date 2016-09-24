@@ -1,0 +1,12 @@
+{
+  "apps" : [{
+    "name"        : "koa",
+    "script"      : "sites/lookchat.me/es6.js",
+    "error_file"  : "sites/lookchat.me/logs/err.log",
+    "out_file"    : "sites/lookchat.me/logs/out.log",
+    "env": {
+      "NODE_ENV"  : "production",
+      "NODE_DEBUG": "konigjs"
+    }
+  }]
+}
