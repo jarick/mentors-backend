@@ -18,7 +18,7 @@ module.exports = {
     client: 'mysql',
     connection: {
       host : 'eu-cdbr-west-01.cleardb.com',
-      user : 'bd04e6f98278bb:be08a89d',
+      user : 'bd04e6f98278bb',
       password : 'be08a89d',
       database : 'heroku_0df0b3d2207582f'
     },
@@ -31,7 +31,7 @@ module.exports = {
     client: 'mysql',
     connection: {
       host : 'eu-cdbr-west-01.cleardb.com',
-      user : 'bd04e6f98278bb:be08a89d',
+      user : 'bd04e6f98278bb',
       password : 'be08a89d',
       database : 'heroku_0df0b3d2207582f'
     },
