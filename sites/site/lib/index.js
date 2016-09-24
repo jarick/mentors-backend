@@ -28,18 +28,15 @@ const configMain = {
 			host: 'mailtrap.io',
 			auth: {
 				user: "450055d4d2e18cd36",
-				password: "859054d4ee83fb"
+				pass: "859054d4ee83fb"
 			},
-			port: 25,
-			tls:{
-				rejectUnauthorized: false
-			}
+			port: 2525
 		},
 		messages: {
 			code: {
-				from: '"LookChat" <support@lookchat.me>',
+				from: '"Find mentors" <support@find-mentor.me>',
 				subject: 'Confirm your authorization',
-				html: 'Your confirm code: <a href="/auth/confirm/#@id#/#@code#">#@code#</a>'
+				html: 'Your confirm code: <a href="/auth/confirm/#@id#/#@code#">link</a>'
 			}
 		}
 	}
