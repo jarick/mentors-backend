@@ -15,7 +15,7 @@ import {TagApi} from './tags'
 import {UserApi} from './users'
 import {PushApi} from './pushes'
 
-type Method = 'GET' | 'POST'
+type Method = 'GET' | 'POST' | 'DELETE' | 'PUT'
 const request = (uri: string, token: ?string = null) => (method: Method, url: string, postData: ?Object = {}) => {
   let options = {
     uri: uri + url,

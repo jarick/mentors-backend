@@ -10,7 +10,10 @@ const configMain = {
 	api: {
 		prefix: '/api/v1'
 	},
-	redis: 'redis://h:pdo01umoghm5vk4mps903f76s8q@ec2-54-75-250-129.eu-west-1.compute.amazonaws.com:15829',
+	redis: process.env.NODE_ENV === 'production'
+		? 'redis://h:pdo01umoghm5vk4mps903f76s8q@ec2-54-75-250-129.eu-west-1.compute.amazonaws.com:15829'
+		: ''
+	,
 	knex: {
 		client: 'mysql',
 		connection: {

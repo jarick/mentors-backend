@@ -70,7 +70,7 @@ export default {
         from: smtpOptions.messages.code.from,
         to: data.mail,
         subject: smtpOptions.messages.code.subject,
-        text: smtpOptions.messages.code.text
+        html: smtpOptions.messages.code.html
           .replace('#@code#', checkword)
           .replace('#@id#', entity.get('id'))
       }
