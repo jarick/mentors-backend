@@ -37,11 +37,7 @@ export default (options) => {
         ctx.knex = knex
         ctx.db = db
         ctx.ajv = ajv
-        ctx.rsmq = new RedisSMQ({
-          host: options.redis.host,
-          port: options.redis.port,
-          ns: 'smq'
-        })
+        ctx.rsmq = new RedisSMQ({client: client})
         ctx.auth = Auth(db, client)
         ctx.pushes = pushes
         ctx.mainOptions = options

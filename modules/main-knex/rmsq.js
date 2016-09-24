@@ -18,7 +18,7 @@ export function Rmsq(config) {
   const bookshelf = Bookshelf(knex)
   const db = DB(bookshelf, knex)
   const auth = Auth(db)
-  const client = redis.createClient(options.redis)
+  const client = redis.createClient(config.redis)
   const online = OnlineService(client)
   const rsmq = new RedisSMQ({
     client: client
