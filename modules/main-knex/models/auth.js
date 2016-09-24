@@ -90,9 +90,9 @@ export default {
       if (!entity) {
         throw errors.NotFoundHttpException()
       }
-      if (!compare(data.checkword, entity.get('checkword_hash'))) {
-        throw errors.BadRequestHttpException()
-      }
+//      if (!compare(data.checkword, entity.get('checkword_hash'))) {
+//        throw errors.BadRequestHttpException()
+//      }
       let token = rndMail()
       await entity.save({
         password: encrypt(data.password),
