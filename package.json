@@ -9,9 +9,6 @@
   },
   "author": "jarick",
   "license": "ISC",
-  "engines": {
-    "node": "6.6.1"
-  },
   "dependencies": {
     "ajv": "^4.7.0",
     "apn": "^2.0.0",
@@ -79,5 +76,8 @@
     "validatorjs": "^3.6.0",
     "webpack": "^1.13.2",
     "yargs": "^5.0.0"
+  },
+  "engines": {
+    "node": "6.6.0"
   }
 }
