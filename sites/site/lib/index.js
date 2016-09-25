@@ -1,7 +1,7 @@
 
 import konig from './../../../lib/index'
 import main from './../../../modules/main-knex/index'
-import {RmsqSocketIo} from './../../../modules/main-knex/rmsq-sock'
+import { Chat } from './../../../modules/main-knex/chat'
 const path = require('path')
 const http = require('http')
 const url = require('url')
@@ -60,7 +60,7 @@ konig(config).then((app) => {
 		  handshake: true
 		}));
 		io.on('connection', (socket) => {
-			RmsqSocketIo(configMain)(io, socket).then(
+			Chat(configMain)(io, socket).then(
 				(result) => null,
 				(err) => console.log(err)
 			)

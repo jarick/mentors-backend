@@ -4,12 +4,11 @@ const async = require('async')
 const path = require('path')
 const fs = require('fs')
 const SocketIO = require('socket.io')
-const SocketIoJwt = require('socketio-jwt')
-var SocketIoClient = require('socket.io-client')
+const SocketIoClient = require('socket.io-client')
 const test = require('co-supertest')
 import konig from './../../../../lib/index'
-import {config, configMain} from './config'
-import {RmsqSocketIo} from './../../../../modules/main-knex/rmsq-sock'
+import { config, configMain } from './config'
+import { Chat } from './../../../../modules/main-knex/chat'
 
 describe('Chat API', function (){
   this.timeout(5000)
@@ -17,12 +16,8 @@ describe('Chat API', function (){
     konig(config).then((app) => {
       const listen = app.listen(3011)
       const io = SocketIO(listen)
-      io.set('authorization', SocketIoJwt.authorize({
-        secret: 'secret',
-        handshake: true
-      }));
       io.on('connection', (socket) => {
-        RmsqSocketIo(configMain)(io, socket).then(
+        Chat(configMain)(io, socket).then(
           (result) => assert(result), (err) => done(err)
         )
       })
@@ -51,17 +46,17 @@ describe('Chat API', function (){
               query: 'token=' + token
             })
             client.on('connect', () => {
-              console.log("Соединение установлено.")
               cb(null, token)
             });
             client.on('message', (data) => {
-              console.log("Success", data)
+              assert(data, '{"result":"ok"}')
+              done()
             });
             client.on('disconnect', () => {
-              console.log('Соединение закрыто')
+              cb(new Error('disconnect'))
             });
             client.on('error', (err) => {
-              console.error(err)
+              cb(err)
             })
           },
           (token, cb) => {
@@ -99,7 +94,11 @@ describe('Chat API', function (){
           (token, room, cb) => {
             setTimeout(() => cb(null), 500)
           },
-        ], (err) => done(err))
+        ], (err) => {
+            if (err) {
+              done(err)
+            }
+        })
       })
     })
   })

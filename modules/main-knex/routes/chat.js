@@ -9,7 +9,7 @@ export default () => {
   router
     .post('/chat/messages', async(ctx) => {
       const request = ChatRequest.send(ctx)
-      const model = ChatModel.send(ctx.knex, ctx.errors, ctx.rsmq)
+      const model = ChatModel.send(ctx.knex, ctx.errors, ctx.redis, ctx.user)
       await Action(request, compose([
         WrapMiddleware(model)
       ]))

@@ -59,7 +59,6 @@
     "request-promise-native": "^1.0.3",
     "rsmq": "^0.7.1",
     "socket.io-client": "^1.4.8",
-    "socketio-jwt": "^4.5.0",
     "twilio": "^2.9.3",
     "utils-error-to-json": "^1.0.0",
     "ws": "^1.1.1"
