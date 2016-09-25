@@ -52,6 +52,7 @@ const config = {
 	}
 }
 konig(config).then((app) => {
+/*
 	try {
 		const io = SocketIO(app.listen(process.env.PORT || 3010))
 		io.on('connection', (socket) => {
@@ -63,4 +64,5 @@ konig(config).then((app) => {
 	} catch(e) {
 		console.log(e)
 	}
+*/
 })
