@@ -1,4 +1,5 @@
 
+/*
 require('./tests/users')
 require('./tests/files')
 require('./tests/rooms')
@@ -12,5 +13,6 @@ require('./tests/profile')
 require('./tests/api')
 require('./tests/items')
 require('./tests/pushes')
+*/
 
-// require('./tests/chat')
+require('./tests/chat')

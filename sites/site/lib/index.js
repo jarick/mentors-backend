@@ -1,11 +1,13 @@
 
 import konig from './../../../lib/index'
 import main from './../../../modules/main-knex/index'
-import {Rmsq} from './../../../modules/main-knex/rmsq'
+import {RmsqSocketIo} from './../../../modules/main-knex/rmsq-sock'
 const path = require('path')
 const http = require('http')
-const WebSocketServer = require('ws').Server
 const url = require('url')
+const SocketIO = require('socket.io')
+const SocketIoJwt = require('socketio-jwt');
+
 const configMain = {
 	api: {
 		prefix: '/api/v1'
@@ -52,9 +54,13 @@ const config = {
 }
 konig(config).then((app) => {
 	try {
-		const ws = new WebSocketServer({server: app.listen(process.env.PORT || 3010)})
-		ws.on('connection', (wss) => {
-			Rmsq(configMain)(wss).then(
+		const io = SocketIO(app.listen(process.env.PORT || 3010))
+		io.set('authorization', SocketIoJwt.authorize({
+		  secret: 'secret',
+		  handshake: true
+		}));
+		io.on('connection', (socket) => {
+			RmsqSocketIo(configMain)(io, socket).then(
 				(result) => null,
 				(err) => console.log(err)
 			)

@@ -12,7 +12,7 @@ import {DB} from './db'
 import {Auth} from  './services/auth'
 import {OnlineService} from './services/online'
 
-export function Rmsq(config) {
+export function RmsqSocketIo(config) {
   const knex = Knex(config.knex)
   const bookshelf = Bookshelf(knex)
   const db = DB(bookshelf, knex)
@@ -22,48 +22,31 @@ export function Rmsq(config) {
   const rsmq = new RedisSMQ({
     client: client
   })
-  return async (socket) => {
-    const location = url.parse(wss.upgradeReq.url, true)
-    const credentials = location.query.accessToken
-    const me = await auth.byToken(credentials)
+  return async (io, socket) => {
+    if (!socket.handshake.query.token) {
+      io.close()
+      return false
+    }
+    const me = await auth.byToken(socket.handshake.query.token)
     if (me) {
       const user = me.user
       const qname = "chat_" + user.id
       online.add(user.id)
       rsmq.createQueue({ qname: qname }, () => {
-        let updatedAt = Date.now()
-        let interval = setInterval(() => {
-          if (Date.now() - updatedAt > 60000) {
-            try {
-              online.offline(user.id)
-              clearInterval(interval)
-              wss.close()
-              rsmq.deleteQueue({ qname: qname }, () => {})
-            } catch (e) {}
-          } else {
-            try { wss.send('ping') } catch(e) {}
-          }
-        }, 1000)
-        wss.on('close', () => {
-          try {
-            online.offline(user.id)
-            clearInterval(interval)
-            wss.close()
-            rsmq.deleteQueue({ qname: qname }, () => {})
-          } catch(e) {}
-        })
-        wss.on('message', () => {
-          updatedAt = Date.now()
+        socket.on('disconnect', () => {
+          online.offline(user.id)
+          io.close()
+          rsmq.deleteQueue({ qname: qname }, () => {})
         })
         rsmq.receiveMessage({qname: qname}, (err, resp) => {
           if (resp.id) {
-            try { wss.send(resp.message) } catch (e) {}
+            socket.emit('message', resp.message)
           }
         })
       })
       return true
     } else {
-      wss.close()
+      io.close()
       return false
     }
   }

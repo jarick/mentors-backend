@@ -1,5 +1,5 @@
 const path = require('path')
-import main from './../../../../modules/main-knex'
+import main from './../../../../modules/main-knex/index'
 
 export const configMain = {
   api: {
@@ -36,7 +36,7 @@ export const configMain = {
       code: {
         from: '"LookChat" <support@lookchat.me>',
           subject: 'Confirm your authorization',
-          text: 'Your confirm code: #@code#, id: #@id#'
+          html: 'Your confirm code: #@code#, id: #@id#'
       }
     }
   },

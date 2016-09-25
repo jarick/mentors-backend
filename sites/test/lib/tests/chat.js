@@ -3,25 +3,30 @@ const assert = require('assert')
 const async = require('async')
 const path = require('path')
 const fs = require('fs')
-const WebSocketServer = require('ws').Server
-const WebSocket = require('ws');
+const SocketIO = require('socket.io')
+const SocketIoJwt = require('socketio-jwt')
+var SocketIoClient = require('socket.io-client')
 const test = require('co-supertest')
-import konig from './../../../../lib'
+import konig from './../../../../lib/index'
 import {config, configMain} from './config'
-import {Rmsq} from './../../../../modules/main-knex/rmsq'
+import {RmsqSocketIo} from './../../../../modules/main-knex/rmsq-sock'
 
 describe('Chat API', function (){
   this.timeout(5000)
   it('Responds', (done) => {
     konig(config).then((app) => {
       const listen = app.listen(3011)
-      const ws = new WebSocketServer({server: listen})
-      ws.on('connection', (wss) => {
-        Rmsq(configMain)(wss).then(
+      const io = SocketIO(listen)
+      io.set('authorization', SocketIoJwt.authorize({
+        secret: 'secret',
+        handshake: true
+      }));
+      io.on('connection', (socket) => {
+        RmsqSocketIo(configMain)(io, socket).then(
           (result) => assert(result), (err) => done(err)
         )
       })
-      ws.on('listening', () => {
+      listen.on('listening', function() {
         const request = test.agent(listen)
         async.waterfall([
           (cb) => {
@@ -42,25 +47,22 @@ describe('Chat API', function (){
               })
           },
           (token, cb) => {
-            const socket = new WebSocket('ws://localhost:3011/?accessToken=' + token)
-            socket.onopen = () => {
+            const client = SocketIoClient('http://localhost:3011', {
+              query: 'token=' + token
+            })
+            client.on('connect', () => {
               console.log("Соединение установлено.")
               cb(null, token)
-            }
-            socket.onclose = (event) => {
-              if (event.wasClean) {
-                console.log('Соединение закрыто чисто')
-              } else {
-                console.log('Обрыв соединения')
-              }
-              console.log('Код: ' + event.code + ' причина: ' + event.reason)
-            }
-            socket.onmessage = (event) => {
-              console.log("Получены данные " + event.data)
-            }
-            socket.onerror = (error) => {
-              console.error(error)
-            }
+            });
+            client.on('message', (data) => {
+              console.log("Success", data)
+            });
+            client.on('disconnect', () => {
+              console.log('Соединение закрыто')
+            });
+            client.on('error', (err) => {
+              console.error(err)
+            })
           },
           (token, cb) => {
             request
