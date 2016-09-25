@@ -34,26 +34,14 @@ export const configMain = {
     },
     messages: {
       code: {
-        from: '"LookChat" <support@lookchat.me>',
+        from: '"Test site" <support@lookchat.me>',
           subject: 'Confirm your authorization',
           html: 'Your confirm code: #@code#, id: #@id#'
       }
     }
   },
-  sms: {
-    accountSid: 'ACa706bcada5933c32c8924f2902e54542',
-      authToken: 'a98d12be39a9374ef83d045e529cc1b4',
-      messages: {
-      code: {
-        from: '+12016307364',
-          body: 'Your confirm code: #@code#, id: #@id#'
-      }
-    }
-  },
-  push: {
-    gcm: {
-      token: "AIzaSyA6bWiX1XOEuAN1iSBZZ6Fq93yzx-pfelA"
-    }
+  amqp: {
+    host: 'localhost'
   }
 }
 

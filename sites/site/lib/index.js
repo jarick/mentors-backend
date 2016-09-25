@@ -40,6 +40,12 @@ const configMain = {
 				html: 'Your confirm code: <a href="/auth/confirm/#@id#/#@code#">link</a>'
 			}
 		}
+	},
+	amqp: {
+		host: 'chicken.rmq.cloudamqp.com',
+		login: 'mbyuxgdc',
+		password: 'oaQnw931tG4dMTd7MGW3bWpRyNN87wVy',
+		vhost: '/mbyuxgdc'
 	}
 }
 const config = {
@@ -52,7 +58,7 @@ const config = {
 	}
 }
 konig(config).then((app) => {
-	app.listen(process.env.PORT || 3010)
+	app.listen(process.env.PORT)
 /*
 	try {
 		const io = SocketIO(app.listen(process.env.PORT || 3010))

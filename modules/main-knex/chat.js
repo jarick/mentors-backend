@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const Bookshelf = require('bookshelf')
 const Knex = require('knex')
 const url = require('url')
+const Amqp = require('amqp')
 const bluebird = require('bluebird')
 const redis = require('redis')
 bluebird.promisifyAll(redis.RedisClient.prototype)
@@ -16,7 +17,8 @@ export function Chat(config) {
   const bookshelf = Bookshelf(knex)
   const db = DB(bookshelf, knex)
   const auth = Auth(db)
-  const client = redis.createClient(config.redis)
+  const amqp = Amqp.createConnection({ host: 'localhost' })
+  //const client = redis.createClient(config.redis)
   const online = OnlineService(client)
   return async (io, socket) => {
     if (!socket.handshake.query.token) {
@@ -28,6 +30,18 @@ export function Chat(config) {
       const user = me.user
       const qname = "chat_" + user.id
       online.add(user.id)
+      amqp.queue((queue) => {
+        queue.bind(qname)
+        queue.subscribe((msg) => {
+          socket.emit('message', msg)
+        })
+        socket.on('disconnect', () => {
+          online.offline(user.id)
+          io.close()
+          queue.destroy()
+        })
+      })
+/*
       client.on("message", function(channel, message) {
         if (channel === qname){
           socket.emit('message', message)
@@ -37,8 +51,10 @@ export function Chat(config) {
       socket.on('disconnect', () => {
         online.offline(user.id)
         io.close()
-        client.unsubscribe(qname)
+        q.unsubscribe()
+        //client.unsubscribe(qname)
       })
+*/
       return true
     } else {
       io.close()
