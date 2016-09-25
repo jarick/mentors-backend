@@ -4,7 +4,6 @@ const Bookshelf = require('bookshelf')
 const Knex = require('knex')
 const bluebird = require('bluebird')
 const redis = require('redis')
-const RedisSMQ = require("rsmq")
 bluebird.promisifyAll(redis.RedisClient.prototype)
 bluebird.promisifyAll(redis.Multi.prototype)
 const EventEmitter2 = require('eventemitter2').EventEmitter2
@@ -37,7 +36,6 @@ export default (options) => {
         ctx.knex = knex
         ctx.db = db
         ctx.ajv = ajv
-        ctx.rsmq = new RedisSMQ({client: client})
         ctx.auth = Auth(db, client)
         ctx.pushes = pushes
         ctx.mainOptions = options

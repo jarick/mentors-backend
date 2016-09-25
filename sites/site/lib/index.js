@@ -6,7 +6,6 @@ const path = require('path')
 const http = require('http')
 const url = require('url')
 const SocketIO = require('socket.io')
-const SocketIoJwt = require('socketio-jwt');
 
 const configMain = {
 	api: {
@@ -55,10 +54,6 @@ const config = {
 konig(config).then((app) => {
 	try {
 		const io = SocketIO(app.listen(process.env.PORT || 3010))
-		io.set('authorization', SocketIoJwt.authorize({
-		  secret: 'secret',
-		  handshake: true
-		}));
 		io.on('connection', (socket) => {
 			Chat(configMain)(io, socket).then(
 				(result) => null,
