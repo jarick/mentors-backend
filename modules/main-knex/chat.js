@@ -2,7 +2,6 @@
 const bcrypt = require('bcrypt')
 const Bookshelf = require('bookshelf')
 const Knex = require('knex')
-const RedisSMQ = require("rsmq")
 const url = require('url')
 const bluebird = require('bluebird')
 const redis = require('redis')

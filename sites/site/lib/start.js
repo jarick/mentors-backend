@@ -4,7 +4,9 @@ import {Api} from './../../../modules/main-knex/api/index'
 
 export async function migrate() {
 
+
 	const api = await Api('https://find-mentors-api.herokuapp.com/api/v1', 'admin@email.no', 'passw0rd')
+/*
 	await api.objects.create({
 		active: true,
 		code: 'tags',
@@ -194,4 +196,60 @@ export async function migrate() {
 		}),
 		object: 'status'
 	})
+	*/
+
+	await api.objects.create({
+		active: true,
+		code: 'issues',
+		name: 'Issues',
+		acl: JSON.stringify({
+			"*": 6,
+			"admin": 7
+		}),
+		permissions: JSON.stringify({})
+	})
+
+	await api.fields.create({
+		name: 'name',
+		type: 'string',
+		notNull: true,
+		schema: JSON.stringify({
+			type: 'string',
+			maxLength: 255
+		}),
+		object: 'issues'
+	})
+
+	await api.fields.create({
+		name: 'time',
+		type: 'string',
+		notNull: true,
+		schema: JSON.stringify({
+			type: 'string',
+			maxLength: 255,
+		}),
+		object: 'issues'
+	})
+
+	await api.fields.create({
+		name: 'task',
+		type: 'integer',
+		notNull: true,
+		schema: JSON.stringify({
+			type: 'integer',
+			exists: {"table": "obj_tasks", "column": "id"}
+		}),
+		object: 'issues'
+	})
+
+	await api.fields.create({
+		name: 'description',
+		type: 'text',
+		notNull: true,
+		schema: JSON.stringify({
+			type: 'string',
+		}),
+		object: 'issues'
+	})
+
 }
