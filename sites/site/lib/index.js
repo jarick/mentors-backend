@@ -52,6 +52,7 @@ const config = {
 	}
 }
 konig(config).then((app) => {
+	app.listen(process.env.PORT || 3010)
 /*
 	try {
 		const io = SocketIO(app.listen(process.env.PORT || 3010))
