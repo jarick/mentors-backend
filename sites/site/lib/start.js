@@ -6,7 +6,7 @@ export async function migrate() {
 
 
 	const api = await Api('https://find-mentors-api.herokuapp.com/api/v1', 'admin@email.no', 'passw0rd')
-/*
+
 	await api.objects.create({
 		active: true,
 		code: 'tags',
@@ -196,7 +196,6 @@ export async function migrate() {
 		}),
 		object: 'status'
 	})
-	*/
 
 	await api.objects.create({
 		active: true,

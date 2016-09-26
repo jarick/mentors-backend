@@ -22,7 +22,8 @@ const configMain = {
 			user : 'bd04e6f98278bb',
 			password : 'be08a89d',
 			database : 'heroku_0df0b3d2207582f'
-		}
+		},
+		pool: { min: 0, max: 1 }
 	},
 	smtp: {
 		transporter: {
