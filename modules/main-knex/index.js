@@ -4,7 +4,7 @@ const Bookshelf = require('bookshelf')
 const Knex = require('knex')
 const bluebird = require('bluebird')
 const redis = require('redis')
-const Amqp = require('amqp')
+const Amqp = require('rabbit.js')
 bluebird.promisifyAll(redis.RedisClient.prototype)
 bluebird.promisifyAll(redis.Multi.prototype)
 const EventEmitter2 = require('eventemitter2').EventEmitter2
@@ -30,7 +30,7 @@ export default (options) => {
       const ajv = Validator(knex)
       const db = DB(bookshelf, knex)
       const online = OnlineService(client)
-      const amqp = Amqp(options.amqp)
+      const amqp = Amqp.createContext(options.amqp)
       bookshelf.plugin('pagination')
       koa.use(async (ctx, next) => {
         ctx.redis = client

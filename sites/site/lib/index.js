@@ -41,12 +41,7 @@ const configMain = {
 			}
 		}
 	},
-	amqp: {
-		host: 'chicken.rmq.cloudamqp.com',
-		login: 'mbyuxgdc',
-		password: 'oaQnw931tG4dMTd7MGW3bWpRyNN87wVy',
-		vhost: '/mbyuxgdc'
-	}
+	amqp: 'amqp://mbyuxgdc:oaQnw931tG4dMTd7MGW3bWpRyNN87wVy@chicken.rmq.cloudamqp.com/mbyuxgdc'
 }
 const config = {
 	emitter: {
@@ -58,10 +53,8 @@ const config = {
 	}
 }
 konig(config).then((app) => {
-	app.listen(process.env.PORT)
-/*
 	try {
-		const io = SocketIO(app.listen(process.env.PORT || 3010))
+		const io = SocketIO(app.listen(process.env.PORT))
 		io.on('connection', (socket) => {
 			Chat(configMain)(io, socket).then(
 				(result) => null,
@@ -71,5 +64,4 @@ konig(config).then((app) => {
 	} catch(e) {
 		console.log(e)
 	}
-*/
 })

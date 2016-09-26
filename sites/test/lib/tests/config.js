@@ -40,9 +40,7 @@ export const configMain = {
       }
     }
   },
-  amqp: {
-    host: 'localhost'
-  }
+  amqp: 'amqp://localhost'
 }
 
 export const config = {

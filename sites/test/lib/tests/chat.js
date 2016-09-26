@@ -90,16 +90,13 @@ describe('Chat API', function (){
                 assert.equal(res.body.result, 'ok')
                 cb(null, token, room)
               })
-          },
-          (token, room, cb) => {
-            setTimeout(() => cb(null), 500)
-          },
+          }
         ], (err) => {
             if (err) {
               done(err)
             }
         })
       })
-    })
+    }, (err) => done(err))
   })
 })
